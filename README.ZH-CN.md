@@ -1,8 +1,6 @@
-# ms-todo
+# Microsoft To Do Skill
 
-一个 [agent skill](https://skills.sh/),用于认证 Microsoft Graph,并通过可复用的 PowerShell 脚本查询或管理 [Microsoft To Do](https://to-do.office.com/) 的列表与任务。适用于列出、过滤、创建、更新、完成或删除 To Do 任务。
-
-> [English](README.md) | 简体中文
+用于认证 Microsoft Graph,并通过可复用的 PowerShell 脚本查询或管理 [Microsoft To Do](https://to-do.office.com/) 的列表与任务。适用于列出、过滤、创建、更新、完成或删除 To Do 任务。
 
 ## 安装
 
@@ -17,7 +15,7 @@ npx skills add nblog/ms-todo
 | 脚本 | 用途 | 委派权限(delegated scope) |
 | --- | --- | --- |
 | `Connect-MsTodo.ps1` | 认证或刷新缓存会话 | 默认 `Tasks.ReadWrite`,传 `-Scopes Tasks.Read` 可只读 |
-| `Get-MsTodo.ps1` | 查询列表与任务(按列表、重要性、状态、截止日期、标题过滤) | 仅 `Tasks.Read` |
+| `Get-MsTodo.ps1` | 查询列表与任务(按列表、重要性、状态、截止日期、标题过滤) | 仅使用 `Tasks.Read` |
 | `Set-MsTodo.ps1` | 创建、更新、完成或删除任务 | `Tasks.ReadWrite` |
 
 脚本使用 Microsoft Graph PowerShell 公共客户端 —— 普通交互使用无需自建 Azure 应用或客户端密钥 —— 并将每用户 MSAL 缓存保存在 `~/.config/ms-todo/` 下,由 Microsoft.Identity.Client.Extensions.Msal 保护。
@@ -97,13 +95,6 @@ pwsh -File scripts/Set-MsTodo.ps1 -Action Complete -ListName 'Work' -TaskId $tas
 ```
 
 同一 PowerShell 进程内的调用方应使用 `& $script @splat` 方式调用以保留活动对象,这同时能摊薄每次调用的模块导入与 MSAL 缓存解锁开销。
-
-## 安全边界
-
-- 不要因为技能被调用或其默认 scope 就推定变更已获授权。查询可以随时执行;但在真实创建、更新、完成或删除之前,应展示解析后的目标与 intended change,并就该次变更获得授权。
-- 请求的 scope 永远不要超出 `Tasks.ReadWrite`。
-- 禁止将令牌写入输出、文件、命令历史与日志;仅报告 `Get-MgContext` 元数据(账户、认证类型、租户、客户端 ID、scope)。
-- MSAL 缓存与用户绑定,在 Windows 上静态加密。切勿将其复制到日志、聊天、其他 Windows 账户或其他机器。
 
 ## 参考资料
 

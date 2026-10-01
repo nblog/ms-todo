@@ -1,6 +1,8 @@
-# ms-todo
+# Microsoft To Do Skill
 
-An [agent skill](https://skills.sh/) for authenticating to Microsoft Graph and querying or managing [Microsoft To Do](https://to-do.office.com/) lists and tasks with reusable PowerShell scripts. Use it for listing, filtering, creating, updating, completing, or deleting To Do tasks.
+> English | [简体中文](README.ZH-CN.md)
+
+Authenticate to Microsoft Graph and query or manage [Microsoft To Do](https://to-do.office.com/) lists and tasks with reusable PowerShell scripts. Use it for listing, filtering, creating, updating, completing, or deleting To Do tasks.
 
 ## Install
 
@@ -15,7 +17,7 @@ The skill ships three scripts under `scripts/` instead of rebuilding authenticat
 | Script | Purpose | Delegated scope |
 | --- | --- | --- |
 | `Connect-MsTodo.ps1` | Authenticate or refresh the cached session | `Tasks.ReadWrite` (default), pass `-Scopes Tasks.Read` for read-only |
-| `Get-MsTodo.ps1` | Query lists and tasks (filter by list, importance, status, due date, title) | `Tasks.Read` only |
+| `Get-MsTodo.ps1` | Query lists and tasks (filter by list, importance, status, due date, title) | Uses `Tasks.Read` only |
 | `Set-MsTodo.ps1` | Create, update, complete, or delete a task | `Tasks.ReadWrite` |
 
 They use the Microsoft Graph PowerShell public client — ordinary interactive use does not require a user-created Azure application or client secret — with a per-user MSAL cache under `~/.config/ms-todo/` protected by Microsoft.Identity.Client.Extensions.Msal.
@@ -95,13 +97,6 @@ pwsh -File scripts/Set-MsTodo.ps1 -Action Complete -ListName 'Work' -TaskId $tas
 ```
 
 Callers inside the same PowerShell process should invoke the scripts with `& $script @splat` to keep live objects, which also amortizes the per-call module import and MSAL cache unlock.
-
-## Safety boundaries
-
-- Do not infer permission for a mutation from the skill being invoked or from its default scope. Query freely when requested; before a live create, update, complete, or delete, show the resolved target and intended change and obtain authorization for that exact mutation.
-- Never broaden the requested scope beyond `Tasks.ReadWrite`.
-- Keep tokens out of output, files, command history, and logs; report `Get-MgContext` metadata only.
-- The MSAL cache is user-bound and encrypted at rest on Windows. Never copy it to logs, chat, another Windows account, or another machine.
 
 ## References
 

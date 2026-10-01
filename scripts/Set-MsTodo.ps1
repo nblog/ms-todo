@@ -19,7 +19,7 @@ param(
 
     [datetime] $DueOn,
 
-    [string] $TimeZone = 'China Standard Time',
+    [string] $TimeZone = (Get-TimeZone).Id,
 
     [switch] $UseDeviceCode,
 
@@ -75,7 +75,7 @@ if ($PSBoundParameters.ContainsKey('Status')) {
 }
 if ($PSBoundParameters.ContainsKey('DueOn')) {
     $body.dueDateTime = @{
-        dateTime = $DueOn.ToString('yyyy-MM-ddTHH:mm:ss')
+        dateTime = $DueOn.ToString('yyyy-MM-ddTHH:mm:ss', [Globalization.CultureInfo]::InvariantCulture)
         timeZone = $TimeZone
     }
 }

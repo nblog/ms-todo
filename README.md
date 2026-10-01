@@ -83,7 +83,7 @@ scripts/Set-MsTodo.ps1 -Action Complete -ListName 'Work' -TaskId <task-id>
 scripts/Set-MsTodo.ps1 -Action Delete   -ListName 'Work' -TaskId <task-id>
 ```
 
-`Set-MsTodo.ps1` supports `-WhatIf`/`-Confirm` (`ConfirmImpact = 'High'`). Due dates accept `-DueOn <datetime>` plus `-TimeZone` (a Windows time-zone name, default `China Standard Time`); Graph's `dateTime` + `timeZone` pair is preserved as-is.
+`Set-MsTodo.ps1` supports `-WhatIf`/`-Confirm` (`ConfirmImpact = 'High'`). Due dates accept `-DueOn <datetime>` plus `-TimeZone` (a Windows time-zone name, default: the machine's local time zone, consistent with `Get-MsTodo.ps1`'s display default); Graph's `dateTime` + `timeZone` pair is preserved as-is.
 
 ### Automation and cross-process callers
 

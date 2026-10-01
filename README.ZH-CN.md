@@ -85,7 +85,7 @@ scripts/Set-MsTodo.ps1 -Action Complete -ListName 'Work' -TaskId <task-id>
 scripts/Set-MsTodo.ps1 -Action Delete   -ListName 'Work' -TaskId <task-id>
 ```
 
-`Set-MsTodo.ps1` 支持 `-WhatIf`/`-Confirm`(`ConfirmImpact = 'High'`)。截止日期用 `-DueOn <datetime>` 配合 `-TimeZone`(Windows 时区名,默认 `China Standard Time`);Graph 的 `dateTime` + `timeZone` 键值对会原样保留。
+`Set-MsTodo.ps1` 支持 `-WhatIf`/`-Confirm`(`ConfirmImpact = 'High'`)。截止日期用 `-DueOn <datetime>` 配合 `-TimeZone`(Windows 时区名,默认取本机时区,与 `Get-MsTodo.ps1` 的显示默认一致);Graph 的 `dateTime` + `timeZone` 键值对会原样保留。
 
 ### 自动化与跨进程调用
 
